@@ -2,9 +2,64 @@ import express from "express";
 import pool from "./database/db_connect_pg.js";
 import type { QueryResult } from "pg";
 import { dbconnection } from "./database/db_connect_mongo.js";
+// import { createEmpleado, deleteEmpleado, getEmpleadoById, getEmpleados, updateEmpleado } from "./controllers/empleados_controller.js";
+import { empleadosRutas } from "./routes/empleados_routes.js";
+import { proyectosRutas } from "./routes/proyectos_routes.js";
 
 const app = express();
 const port = 3000;
+
+// Middleware para procesar JSON
+app.use(express.json());
+
+// Middleware para procesar datos 'application/x-www-form-urlencoded'
+app.use(express.urlencoded({extended: true}));
+
+app.use(empleadosRutas);
+app.use(proyectosRutas);
+
+/*
+app.get('/empleados', async(req, res) => {
+    const empleados = await getEmpleados(req, res);
+    res.send(empleados);
+});
+
+app.get('/empleados/:id', async(req, res) => {
+    try {
+        const empleados = await getEmpleadoById(req, res);
+        res.send(empleados);
+    } catch (error) {
+        res.send(error);
+    }
+});
+
+app.post('/createEmpleado', async(req, res) => {
+    try {
+        const empleados = await createEmpleado(req, res);
+        res.send(empleados);
+    } catch (error) {
+        res.send(error);
+    }
+});
+
+app.delete('/deleteEmpleado/:id', async(req, res) => {
+    try {
+        const empleados = await deleteEmpleado(req, res);
+        res.send(empleados);
+    } catch (error) {
+        res.send(error);
+    }
+});
+
+app.put('/updateEmpleado/:id', async(req, res) => {
+    try {
+        const empleados = await updateEmpleado(req, res);
+        res.send(empleados);
+    } catch (error) {
+        res.send(error);
+    }
+});*/
+
 
 app.get('/', async (req, res) => {
     try {
@@ -17,12 +72,11 @@ app.get('/', async (req, res) => {
     }
 });
 
-app.get('/mongo', (req, res) => {
-    const response = dbconnection('sample_mflix','movies');
+app.get('/mongo', async (req, res) => {
+    const response = await dbconnection('sample_mflix','movies');
     res.send(response);
 });
 
 app.listen(port, () => {
     return console.log(`Estoy corriendo en el puerto ${port}`);
 });
-

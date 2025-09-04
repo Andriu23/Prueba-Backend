@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Este es un ejemplo sobre la configuración de node express y typescript del proyecto",
   "main": "index.js",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "start": "tsc & node lib/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
